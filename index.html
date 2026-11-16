@@ -2,142 +2,151 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>For Riya ❤️</title>
     <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
         body {
             margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            padding: 20px;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             overflow: hidden;
             text-align: center;
         }
         .card {
             background: white;
-            padding: 30px 20px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            width: 90%;
-            max-width: 400px;
+            padding: 35px 25px;
+            border-radius: 24px;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 380px;
             position: relative;
+            z-index: 10;
         }
         h1 {
             color: #d63384;
             font-size: 24px;
-            margin-bottom: 10px;
+            margin: 0 0 15px 0;
+            line-height: 1.4;
         }
-        p {
+        #subText {
             color: #555;
             font-size: 16px;
-            margin-bottom: 25px;
+            font-weight: 500;
+            margin: 0 0 25px 0;
+            min-height: 24px;
         }
         .buttons {
             display: flex;
             justify-content: center;
+            align-items: center;
             gap: 20px;
-            position: relative;
-            min-height: 60px;
+            margin-top: 10px;
         }
         button {
-            padding: 12px 25px;
-            font-size: 16px;
+            padding: 14px 28px;
+            font-size: 17px;
             font-weight: bold;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: transform 0.2s ease, font-size 0.2s ease;
+            touch-action: manipulation;
         }
         #yesBtn {
             background-color: #ff4d6d;
             color: white;
             box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+            z-index: 20;
         }
         #noBtn {
             background-color: #adb5bd;
             color: white;
-            position: relative;
-        }
-        .hidden {
-            display: none;
+            z-index: 999;
         }
         .celebration h2 {
-            color: #2b9348;
-            font-size: 26px;
+            color: #d63384;
+            font-size: 24px;
+            margin-bottom: 15px;
         }
         .celebration p {
             color: #333;
             font-size: 15px;
             line-height: 1.6;
             text-align: left;
+            margin: 0;
         }
     </style>
 </head>
 <body>
 
     <div class="card" id="card">
-        <div id="questionContainer">
-            <h1>Riya, kya tum mujhe maaf karogi? ❤️</h1>
-            <p id="subText">Ab gussa thook bhi do na cutie! Maan jao na please? 😊</p>
-            <div class="buttons">
-                <button id="yesBtn" onclick="onYesClick()">Yes! ❤️</button>
-                <button id="noBtn" onclick="onNoClick()">No 😢</button>
-            </div>
+        <h1>Riya, kya tum mujhe maaf karogi? ❤️</h1>
+        <p id="subText"></p>
+        <div class="buttons">
+            <button id="yesBtn" type="button">Yes! ❤️</button>
+            <button id="noBtn" type="button">No 😢</button>
         </div>
     </div>
 
     <script>
-        let noClickCount = 0;
-        const messages = [
-            "Soch lo acche se! 🥺",
-            "Dil mat dukhao yaar, maan jao na! 😭",
-            "Aise naaraz rahogi toh kaise chalega cutie? 💔",
-            "Maan jao na Riya cutie please 🥺❤️"
-        ];
+        let noCount = 0;
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const subText = document.getElementById('subText');
+        const card = document.getElementById('card');
 
-        function onNoClick() {
-            noClickCount++;
-            const noBtn = document.getElementById('noBtn');
-            const subText = document.getElementById('subText');
-            const yesBtn = document.getElementById('yesBtn');
+        function moveNoButton(e) {
+            if (e) e.preventDefault();
+            noCount++;
 
-            if (noClickCount < 4) {
-                // Move button around randomly 3-4 times
-                subText.innerText = messages[noClickCount - 1];
+            if (noCount <= 4) {
+                // Screen ke andar random safe position nikalna
+                noBtn.style.position = 'fixed';
+                const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+                const maxY = window.innerHeight - noBtn.offsetHeight - 20;
                 
-                // Increase Yes button size slightly to tempt her
-                let currentSize = window.getComputedStyle(yesBtn).fontSize;
-                yesBtn.style.fontSize = (parseFloat(currentSize) + 2) + 'px';
+                const randomX = Math.max(20, Math.floor(Math.random() * maxX));
+                const randomY = Math.max(20, Math.floor(Math.random() * maxY));
+                
+                noBtn.style.left = randomX + 'px';
+                noBtn.style.top = randomY + 'px';
 
-                // Random jump
-                const randomX = (Math.random() - 0.5) * 150;
-                const randomY = (Math.random() - 0.5) * 100;
-                noBtn.style.transform = translate(${randomX}px, ${randomY}px);
+                // Yes button ko thoda bada karna
+                let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+                yesBtn.style.fontSize = (currentSize + 3) + 'px';
             } else {
-                // Final plea message after 3-4 clicks
-                subText.innerText = "Maan jao na Riya cutie please 🥺❤️ Ab aur 'No' mat dabao!";
-                noBtn.style.display = 'none'; // Hide No button finally
+                // 4 baar bhaagne ke baad final message
+                subText.innerText = "Maan jao na Riya cutie please 🥺";
+                noBtn.style.display = 'none';
             }
         }
 
-        function onYesClick() {
-            const card = document.getElementById('card');
+        // Click aur Touch dono ke liye listener
+        noBtn.addEventListener('click', moveNoButton);
+        noBtn.addEventListener('touchstart', moveNoButton, { passive: false });
+
+        yesBtn.addEventListener('click', function() {
+            noBtn.style.display = 'none';
             card.innerHTML = `
                 <div class="celebration">
-                    <h2>Yay! Thank you so much! 🥰❤️</h2>
+                    <h2>Yay! Thank you so much Riya! 🥰❤️</h2>
                     <p>
-                        <b>Riya,</b><br>
-                        Mujhe pata hai pichla dedh saal thoda mushkil raha aur meri taraf se bhi kaafi kamiyaan rahiin, jiske liye main sach mein dil se sharminda hoon.<br><br>
-                        Lekin tumhara yeh kehna ki <i>"mujhe koi teesra banda beech mein nahi lana, bharosa hai itna toh"</i> mere liye bahut मायने rakhta hai. Main apni saari galtiyon ko sudhar raha hoon aur tumhare is bharose ko hamesha banaye rakhunga.<br><br>
-                        Tum meri best friend bhi ho aur meri priority bhi. Chalo ab saara gussa khatam aur ek nayi shuruwat karte hain! ✨💖
+                        Tum sach mein duniya ki sabse pyari aur samajhdar ladki ho! ✨<br><br>
+                        Mujhe pata hai pichle kuch time mein meri taraf se kaafi galtiyan aur kamiyaan rahi hain, jiske liye main dil se sorry hoon. Lekin tumhara mujh par abhi bhi bharosa rakhna mere liye sabse badi baat hai.<br><br>
+                        Tumhari smile mere liye sabse zyada matter karti hai. Main wada karta hoon ki ab hamesha tumhara khayal rakhunga aur kabhi shikayat ka mauka nahi dunga. 💖🌹
                     </p>
                 </div>
             `;
-        }
+        });
     </script>
 </body>
 </html>
