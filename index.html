@@ -17,116 +17,124 @@
             overflow: hidden;
             text-align: center;
         }
-
         .card {
             background: white;
             padding: 30px 20px;
             border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            max-width: 350px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             width: 90%;
+            max-width: 400px;
             position: relative;
         }
-
-        h2 {
+        h1 {
             color: #d63384;
-            margin-bottom: 20px;
-            font-size: 22px;
+            font-size: 24px;
+            margin-bottom: 10px;
         }
-
         p {
             color: #555;
             font-size: 16px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
-
-        .btn-group {
+        .buttons {
             display: flex;
             justify-content: center;
             gap: 20px;
             position: relative;
-            height: 50px;
+            min-height: 60px;
         }
-
         button {
-            padding: 10px 25px;
+            padding: 12px 25px;
             font-size: 16px;
             font-weight: bold;
             border: none;
-            border-radius: 25px;
+            border-radius: 50px;
             cursor: pointer;
-            transition: 0.2s ease;
+            transition: all 0.2s ease;
         }
-
         #yesBtn {
             background-color: #ff4d6d;
             color: white;
             box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
         }
-
-        #yesBtn:hover {
-            background-color: #e63956;
-        }
-
         #noBtn {
             background-color: #adb5bd;
             color: white;
-            position: absolute;
+            position: relative;
         }
-
-        .celebration {
-            font-size: 18px;
+        .hidden {
+            display: none;
+        }
+        .celebration h2 {
             color: #2b9348;
+            font-size: 26px;
+        }
+        .celebration p {
+            color: #333;
+            font-size: 15px;
             line-height: 1.6;
+            text-align: left;
         }
     </style>
 </head>
 <body>
 
-    <div class="card" id="mainCard">
-        <h2 id="questionText">Riya, kya tum mujhe maaf karogi? ❤️</h2>
-        <p id="subText">Ab gussa thook bhi do na cutie! Maan jao na please? 😊</p>
-        
-        <div class="btn-group" id="btnGroup">
-            <button id="yesBtn" onclick="onYesClick()">Yes! ❤️</button>
-            <button id="noBtn" onmouseover="moveNoButton()" onclick="moveNoButton()">No 😢</button>
+    <div class="card" id="card">
+        <div id="questionContainer">
+            <h1>Riya, kya tum mujhe maaf karogi? ❤️</h1>
+            <p id="subText">Ab gussa thook bhi do na cutie! Maan jao na please? 😊</p>
+            <div class="buttons">
+                <button id="yesBtn" onclick="onYesClick()">Yes! ❤️</button>
+                <button id="noBtn" onclick="onNoClick()">No 😢</button>
+            </div>
         </div>
     </div>
 
     <script>
-        const noMessages = [
-            "Please maan jao na cutie! 🥺",
-            "Aise na karo yaar, gussa chhod do! 😭",
-            "Soch lo, baad mein bahut pachtaogi! 😜",
-            "Dil mat todo mera, yes dabao! ❤️",
-            "No button kaam nahi karega,maan jao ab! 😉"
+        let noClickCount = 0;
+        const messages = [
+            "Soch lo acche se! 🥺",
+            "Dil mat dukhao yaar, maan jao na! 😭",
+            "Aise naaraz rahogi toh kaise chalega cutie? 💔",
+            "Maan jao na Riya cutie please 🥺❤️"
         ];
-        
-        let msgIndex = 0;
 
-        function moveNoButton() {
+        function onNoClick() {
+            noClickCount++;
             const noBtn = document.getElementById('noBtn');
             const subText = document.getElementById('subText');
-            
-            subText.innerText = noMessages[msgIndex];
-            msgIndex = (msgIndex + 1) % noMessages.length;
-
-            const x = Math.random() * 150 - 75;
-            const y = Math.random() * 100 - 50;
-            noBtn.style.transform = translate(${x}px, ${y}px);
-            
             const yesBtn = document.getElementById('yesBtn');
-            let currentSize = window.getComputedStyle(yesBtn).fontSize;
-            yesBtn.style.fontSize = (parseFloat(currentSize) + 1) + 'px';
+
+            if (noClickCount < 4) {
+                // Move button around randomly 3-4 times
+                subText.innerText = messages[noClickCount - 1];
+                
+                // Increase Yes button size slightly to tempt her
+                let currentSize = window.getComputedStyle(yesBtn).fontSize;
+                yesBtn.style.fontSize = (parseFloat(currentSize) + 2) + 'px';
+
+                // Random jump
+                const randomX = (Math.random() - 0.5) * 150;
+                const randomY = (Math.random() - 0.5) * 100;
+                noBtn.style.transform = translate(${randomX}px, ${randomY}px);
+            } else {
+                // Final plea message after 3-4 clicks
+                subText.innerText = "Maan jao na Riya cutie please 🥺❤️ Ab aur 'No' mat dabao!";
+                noBtn.style.display = 'none'; // Hide No button finally
+            }
         }
 
         function onYesClick() {
-            const card = document.getElementById('mainCard');
+            const card = document.getElementById('card');
             card.innerHTML = `
-                <h2>Yayyy! Mujhe pata tha meri Riya maan jayegi! 🎉❤️</h2>
                 <div class="celebration">
-                    Tum duniya ki sabse pyari ladki ho! 🥰<br><br>
-                    Ab saara stress aur overthinking dimaag se nikal do, kyunki Pratham hamesha tumhare sath hai. 🫂✨
+                    <h2>Yay! Thank you so much! 🥰❤️</h2>
+                    <p>
+                        <b>Riya,</b><br>
+                        Mujhe pata hai pichla dedh saal thoda mushkil raha aur meri taraf se bhi kaafi kamiyaan rahiin, jiske liye main sach mein dil se sharminda hoon.<br><br>
+                        Lekin tumhara yeh kehna ki <i>"mujhe koi teesra banda beech mein nahi lana, bharosa hai itna toh"</i> mere liye bahut मायने rakhta hai. Main apni saari galtiyon ko sudhar raha hoon aur tumhare is bharose ko hamesha banaye rakhunga.<br><br>
+                        Tum meri best friend bhi ho aur meri priority bhi. Chalo ab saara gussa khatam aur ek nayi shuruwat karte hain! ✨💖
+                    </p>
                 </div>
             `;
         }
