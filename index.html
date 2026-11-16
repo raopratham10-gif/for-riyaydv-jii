@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Riya ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .card {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 350px;
+            width: 90%;
+            position: relative;
+        }
+
+        h2 {
+            color: #d63384;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+
+        p {
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            height: 50px;
+        }
+
+        button {
+            padding: 10px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+        }
+
+        #yesBtn:hover {
+            background-color: #e63956;
+        }
+
+        #noBtn {
+            background-color: #adb5bd;
+            color: white;
+            position: absolute;
+        }
+
+        .celebration {
+            font-size: 18px;
+            color: #2b9348;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card" id="mainCard">
+        <h2 id="questionText">Riya, kya tum mujhe maaf karogi? ❤️</h2>
+        <p id="subText">Ab gussa thook bhi do na cutie! Maan jao na please? 😊</p>
+        
+        <div class="btn-group" id="btnGroup">
+            <button id="yesBtn" onclick="onYesClick()">Yes! ❤️</button>
+            <button id="noBtn" onmouseover="moveNoButton()" onclick="moveNoButton()">No 😢</button>
+        </div>
+    </div>
+
+    <script>
+        const noMessages = [
+            "Please maan jao na cutie! 🥺",
+            "Aise na karo yaar, gussa chhod do! 😭",
+            "Soch lo, baad mein bahut pachtaogi! 😜",
+            "Dil mat todo mera, yes dabao! ❤️",
+            "No button kaam nahi karega,maan jao ab! 😉"
+        ];
+        
+        let msgIndex = 0;
+
+        function moveNoButton() {
+            const noBtn = document.getElementById('noBtn');
+            const subText = document.getElementById('subText');
+            
+            subText.innerText = noMessages[msgIndex];
+            msgIndex = (msgIndex + 1) % noMessages.length;
+
+            const x = Math.random() * 150 - 75;
+            const y = Math.random() * 100 - 50;
+            noBtn.style.transform = translate(${x}px, ${y}px);
+            
+            const yesBtn = document.getElementById('yesBtn');
+            let currentSize = window.getComputedStyle(yesBtn).fontSize;
+            yesBtn.style.fontSize = (parseFloat(currentSize) + 1) + 'px';
+        }
+
+        function onYesClick() {
+            const card = document.getElementById('mainCard');
+            card.innerHTML = `
+                <h2>Yayyy! Mujhe pata tha meri Riya maan jayegi! 🎉❤️</h2>
+                <div class="celebration">
+                    Tum duniya ki sabse pyari ladki ho! 🥰<br><br>
+                    Ab saara stress aur overthinking dimaag se nikal do, kyunki Pratham hamesha tumhare sath hai. 🫂✨
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
